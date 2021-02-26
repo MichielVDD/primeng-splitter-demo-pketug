@@ -1,5 +1,9 @@
-test {
+tr > td {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+::ng-deep .p-tree {
+  border: none !important;
 }
