@@ -5,7 +5,7 @@
 		</ng-template>
 		<ng-template>
 			<p-table #dt1 dataKey="id" lazy="false" [value]="beleidsItems" [resizableColumns]="true" [paginator]="true"
-				[rows]="10" [rowsPerPageOptions]="[10,25,50]" [globalFilterFields]="['looptijd']" [loading]="loading"
+				[rows]="10" [rowsPerPageOptions]="[10,25,50]" [globalFilterFields]="beleidselement" [loading]="loading"
 				styleClass="p-datatable-beleidsItems p-datatable-gridlines p-datatable-sm">
 				<ng-template pTemplate="caption">
 					<div class="p-d-flex">
