@@ -9,20 +9,12 @@ export class AppComponent {
   files2: TreeNode[] = <TreeNode[]>[
     {
       label: "SD: Vrijetijdsbesteding",
-      data: "Documents Folder",
-      expandedIcon: "pi pi-folder-open",
-      collapsedIcon: "pi pi-folder",
       children: [
         {
           label: "BD: Een optimaal gebruik van de beschikbare infrastructuur",
-          data: "Work Folder",
-          expandedIcon: "pi pi-folder-open",
-          collapsedIcon: "pi pi-folder",
           children: [
             {
               label: "AP: Efficiënt Gebruik van sportcentra etc....",
-              icon: "pi pi-file",
-              data: "Expenses Document",
               children: [
                 {
                   label: "A: De gemeentelijke sportcentra rookvrij maken"
