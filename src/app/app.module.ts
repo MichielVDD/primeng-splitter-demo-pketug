@@ -6,6 +6,8 @@ import { ButtonModule } from "primeng/button";
 import { SplitterModule } from "primeng/splitter";
 import { TableModule } from "primeng/table";
 import { TreeModule } from "primeng/tree";
+import { InputTextModule } from "primeng/inputtext";
+import { AutoCompleteModule } from "primeng/autocomplete";
 
 @NgModule({
   imports: [
@@ -14,7 +16,9 @@ import { TreeModule } from "primeng/tree";
     SplitterModule,
     ButtonModule,
     TableModule,
-    TreeModule
+    TreeModule,
+    InputTextModule,
+    AutoCompleteModule
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent]

@@ -4,13 +4,28 @@
 			<p-tree [value]="doelstellingboom"></p-tree>
 		</ng-template>
 		<ng-template>
-			<p-table #dt1 dataKey="id" lazy="false" [value]="beleidsItems" [resizableColumns]="true" [paginator]="true"
-				[rows]="10" [rowsPerPageOptions]="[10,25,50]" [globalFilterFields]="beleidselement" [loading]="loading"
-				styleClass="p-datatable-beleidsItems p-datatable-gridlines p-datatable-sm">
+			<p-table #dt1 [value]="beleidsItems" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+				[resizableColumns]="true" [responsive]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+				styleClass="p-datatable-beleidsItems p-datatable-gridlines p-datatable-sm" [paginator]="true"
+				currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+				[globalFilterFields]="['verantwoordelijke','opvolger']">
 				<ng-template pTemplate="caption">
-					<div class="p-d-flex">
-						<button pButton type="button" label="'Mijn' beleid" (click)="dt1.filterGlobal('5', 'contains')"></button>
-						<button pButton type="button" label="'Alle' beleid" (click)="clear(dt1)"></button>
+					<div class="p-d-flex p-jc-end">
+						<span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" class="p-mr-2" placeholder="Zoek op actieplan" (input)="dt1.filter($event.target.value, 'actieplan', 'contains')">
+            </span>
+						<span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" class="p-mr-2" placeholder="Zoek op actie" (input)="dt1.filter($event.target.value, 'actie', 'contains')">
+            </span>
+						<span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <p-autoComplete class="p-mr-2" [suggestions]="filteredResults" field="name" (completeMethod)="filterResults($event)" [forceSelection]="true" 
+              (onSelect)="dt1.filter($event.name, 'beleidselement', 'contains')" (onClear)="dt1.filter('', 'beleidselement', 'contains')" placeholder="Zoek op beleidselement"></p-autoComplete>
+            </span>
+						<button pButton type="button" class="p-mr-2" label="'Mijn' beleid" (click)="dt1.filterGlobal('Michiel', 'contains')"></button>
+						<button pButton type="button" class="p-mr-2" label="'Alle' beleid" (click)="dt1.filterGlobal('', 'contains')"></button>
 					</div>
 				</ng-template>
 				<ng-template pTemplate="header">
@@ -64,15 +79,15 @@
 				</ng-template>
 				<ng-template pTemplate="body" let-item>
 					<tr>
-						<td class="test">{{item.beleidselement}}</td>
-						<td>{{item.looptijd}}</td>
-						<td>{{item.prioritair}}</td>
-						<td>{{item.status}}</td>
-						<td class="test">{{item.verantwoordelijke}}</td>
-						<td class="test">{{item.opvolger}}</td>
-						<td class="test">{{item.tag}}</td>
-						<td>{{item.indicator}}</td>
-						<td>{{item.takenlijst}}</td>
+						<td class="test" title="{{item.beleidselement}}">{{item.beleidselement}}</td>
+						<td title="{{item.looptijd}}">{{item.looptijd}}</td>
+						<td title="{{item.prioritair}}">{{item.prioritair}}</td>
+						<td title="{{item.status}}"></td>
+						<td class="test" title="{{item.verantwoordelijke}}">{{item.verantwoordelijke}}</td>
+						<td class="test" title="{{item.opvolger}}">{{item.opvolger}}</td>
+						<td class="test" title="{{item.tag}}">{{item.tag}}</td>
+						<td title="{{item.indicator}}">{{item.indicator}}</td>
+						<td title="{{item.takenlijst}}">{{item.takenlijst}}</td>
 					</tr>
 				</ng-template>
 			</p-table>
