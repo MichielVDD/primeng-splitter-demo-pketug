@@ -6,4 +6,17 @@ tr > td {
 
 ::ng-deep .p-tree {
   border: none !important;
+  padding: 0 !important;
+}
+
+.p-inputgroup {
+  height: 39px;
+}
+
+p-autocomplete {
+  width: 100%;
+}
+
+.icons-table {
+  width: 60px;
 }

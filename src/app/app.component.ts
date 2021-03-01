@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
           label: "BD: Een optimaal gebruik van de beschikbare infrastructuur",
           children: [
             {
-              label: "AP: Efficiënt Gebruik van sportcentra etc....",
+              label: "AP: Efficiënt Gebruik van sportcentra",
               children: [
                 {
                   label: "A: De gemeentelijke sportcentra rookvrij maken"

@@ -1,5 +1,5 @@
 <div class="card">
-	<p-splitter [panelSizes]="[17,83]">
+	<p-splitter [panelSizes]="[12,88]">
 		<ng-template>
 			<p-tree [value]="doelstellingboom"></p-tree>
 		</ng-template>
@@ -10,26 +10,61 @@
 				currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
 				[globalFilterFields]="['verantwoordelijke','opvolger']">
 				<ng-template pTemplate="caption">
-					<div class="p-d-flex p-jc-end">
-						<span class="p-input-icon-left">
-              <i class="pi pi-search"></i>
-              <input pInputText type="text" class="p-mr-2" placeholder="Zoek op actieplan" (input)="dt1.filter($event.target.value, 'actieplan', 'contains')">
-            </span>
-						<span class="p-input-icon-left">
-              <i class="pi pi-search"></i>
-              <input pInputText type="text" class="p-mr-2" placeholder="Zoek op actie" (input)="dt1.filter($event.target.value, 'actie', 'contains')">
-            </span>
-						<span class="p-input-icon-left">
-              <i class="pi pi-search"></i>
-              <p-autoComplete class="p-mr-2" [suggestions]="filteredResults" field="name" (completeMethod)="filterResults($event)" [forceSelection]="true" 
-              (onSelect)="dt1.filter($event.name, 'beleidselement', 'contains')" (onClear)="dt1.filter('', 'beleidselement', 'contains')" placeholder="Zoek op beleidselement"></p-autoComplete>
-            </span>
-						<button pButton type="button" class="p-mr-2" label="'Mijn' beleid" (click)="dt1.filterGlobal('Michiel', 'contains')"></button>
-						<button pButton type="button" class="p-mr-2" label="'Alle' beleid" (click)="dt1.filterGlobal('', 'contains')"></button>
-					</div>
+					<div class="p-grid p-fluid">
+						<div class="p-col-9 p-md-3">
+							<div class="p-inputgroup">
+								<span class="p-inputgroup-addon"><p-columnFilter type="text" field="actieplan" display="menu"></p-columnFilter></span>
+								<input pInputText type="text" class="p-mr-2" placeholder="Zoek op actieplan" (input)="dt1.filter($event.target.value, 'actieplan', 'contains')">
+              </div>
+							</div>
+							<div class="p-col-9 p-md-3">
+								<div class="p-inputgroup">
+									<span class="p-inputgroup-addon"><p-columnFilter type="text" field="actie" display="menu"></p-columnFilter></span>
+									<input pInputText type="text" class="p-mr-2" placeholder="Zoek op actie" (input)="dt1.filter($event.target.value, 'actie', 'contains')">
+							</div>
+								</div>
+								<div class="p-col-9 p-md-3">
+									<div class="p-inputgroup">
+										<span class="p-inputgroup-addon"><p-columnFilter type="text" field="beleidselement" display="menu"></p-columnFilter></span>
+										<p-autoComplete class="p-mr-2" [suggestions]="filteredResults" field="name"
+											(completeMethod)="filterResults($event)" [forceSelection]="true"
+											(onSelect)="dt1.filter($event.name, 'beleidselement', 'contains')"
+											(onClear)="dt1.filter('', 'beleidselement', 'contains')"
+											placeholder="Zoek op beleidselement"></p-autoComplete>
+									</div>
+								</div>
+								<div class="p-col-9 p-md-3">
+									<div class="p-inputgroup">
+										<span class="p-inputgroup-addon"><p-columnFilter type="text" field="actieplan" display="menu"></p-columnFilter></span>
+										<input pInputText type="text" class="p-mr-2" placeholder="Zoek op actieplan" (input)="dt1.filter($event.target.value, 'actieplan', 'contains')">
+              </div>
+									</div>
+									<div class="p-col-9 p-md-3">
+										<div class="p-inputgroup">
+											<span class="p-inputgroup-addon"><p-columnFilter type="text" field="actie" display="menu"></p-columnFilter></span>
+											<input pInputText type="text" class="p-mr-2" placeholder="Zoek op actie" (input)="dt1.filter($event.target.value, 'actie', 'contains')">
+							</div>
+										</div>
+										<div class="p-col-9 p-md-3">
+											<div class="p-inputgroup">
+												<span class="p-inputgroup-addon"><p-columnFilter type="text" field="beleidselement" display="menu"></p-columnFilter></span>
+												<p-autoComplete class="p-mr-2" [suggestions]="filteredResults"
+													field="name" (completeMethod)="filterResults($event)"
+													[forceSelection]="true"
+													(onSelect)="dt1.filter($event.name, 'beleidselement', 'contains')"
+													(onClear)="dt1.filter('', 'beleidselement', 'contains')"
+													placeholder="Zoek op beleidselement"></p-autoComplete>
+											</div>
+										</div>
+									</div>
+									<div class="p-d-flex p-jc-end">
+										<button pButton type="button" class="p-mr-2" label="'Mijn' beleid" (click)="dt1.filterGlobal('Michiel', 'contains')"></button>
+										<button pButton type="button" class="p-mr-2" label="'Alle' beleid" (click)="dt1.filterGlobal('', 'contains')"></button>
+									</div>
 				</ng-template>
 				<ng-template pTemplate="header">
 					<tr>
+						<th class="icons-table"></th>
 						<th pResizableColumn pSortableColumn="beleidselement">
 							Beleidselement
 							<p-sortIcon field="beleidselement"></p-sortIcon>
@@ -79,10 +114,17 @@
 				</ng-template>
 				<ng-template pTemplate="body" let-item>
 					<tr>
+						<td class="icons-table">
+							<i class="pi pi-file-o"></i>
+						</td>
 						<td class="test" title="{{item.beleidselement}}">{{item.beleidselement}}</td>
 						<td title="{{item.looptijd}}">{{item.looptijd}}</td>
-						<td title="{{item.prioritair}}">{{item.prioritair}}</td>
-						<td title="{{item.status}}"></td>
+						<td title="{{item.prioritair}}">
+							<ng-container *ngIf="item.prioritair"><i class="pi pi-check"></i></ng-container>
+						</td>
+						<td title="{{item.status}}">
+							<i class="pi pi-check-circle"></i>
+						</td>
 						<td class="test" title="{{item.verantwoordelijke}}">{{item.verantwoordelijke}}</td>
 						<td class="test" title="{{item.opvolger}}">{{item.opvolger}}</td>
 						<td class="test" title="{{item.tag}}">{{item.tag}}</td>
