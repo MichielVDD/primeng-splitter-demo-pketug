@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import { TreeNode } from "primeng/api";
 import { Table } from "primeng/table";
 
@@ -44,14 +44,26 @@ export class AppComponent implements OnInit {
       takenlijst: "",
       auteur: "Michiel",
       actieplan: "ap1",
-      actie: "a1"
+      actie: "a1",
+      indicatorList: [
+        {
+          LaatsteMeting: "02/01/2021",
+          VolgendeMeting: "02/05/2021",
+          Onderwerp: "Stand  van zaken"
+        },
+        {
+          LaatsteMeting: "18/01/2021",
+          VolgendeMeting: "18/05/2021",
+          Onderwerp: "Stand  van zaken #2"
+        }
+      ]
     },
     {
       id: 1001,
       beleidselement: "SE6.2.8 Implementatie nieuwe huisstijl",
       looptijd: "2020-2025",
       prioritair: true,
-      status: "",
+      status: "busy",
       verantwoordelijke: "Jan Peeters",
       opvolger: "Sophie Verheecke",
       tag: "HEIST",
@@ -59,7 +71,19 @@ export class AppComponent implements OnInit {
       takenlijst: "",
       auteur: "Sophie",
       actieplan: "ap2",
-      actie: "a2"
+      actie: "a2",
+      indicatorList: [
+        {
+          LaatsteMeting: "02/01/2021",
+          VolgendeMeting: "02/05/2021",
+          Onderwerp: "Stand  van zaken"
+        },
+        {
+          LaatsteMeting: "18/01/2021",
+          VolgendeMeting: "18/05/2021",
+          Onderwerp: "Stand  van zaken #2"
+        }
+      ]
     },
     {
       id: 1002,
@@ -67,7 +91,7 @@ export class AppComponent implements OnInit {
         "SE2.2.8  Er wordt een algemene stedenbouwkundige verordening opgemaakt om diverse aangelegenheden inzake ruimtelijke ordening te regelen voor het hele grondgebied",
       looptijd: "2020-2025",
       prioritair: false,
-      status: "",
+      status: "done",
       verantwoordelijke: "Erwin",
       opvolger: "Romain",
       tag: "ANDERE",
@@ -75,14 +99,26 @@ export class AppComponent implements OnInit {
       takenlijst: "",
       auteur: "Sophie",
       actieplan: "ap3",
-      actie: "a3"
+      actie: "a3",
+      indicatorList: [
+        {
+          LaatsteMeting: "02/01/2021",
+          VolgendeMeting: "02/05/2021",
+          Onderwerp: "Stand  van zaken"
+        },
+        {
+          LaatsteMeting: "18/01/2021",
+          VolgendeMeting: "18/05/2021",
+          Onderwerp: "Stand  van zaken #2"
+        }
+      ]
     },
     {
       id: 1003,
       beleidselement: "SE2.2.5 Herstelling kunstgras hockeyveld",
       looptijd: "2020-2021",
       prioritair: true,
-      status: "",
+      status: "notdone",
       verantwoordelijke:
         "Michiel Van Der Donck; Michel Lochten; Margarita Dubkova",
       opvolger: "Jan Peeters",
@@ -91,14 +127,26 @@ export class AppComponent implements OnInit {
       takenlijst: "",
       auteur: "Michiel",
       actieplan: "ap4",
-      actie: "a4"
+      actie: "a4",
+      indicatorList: [
+        {
+          LaatsteMeting: "02/01/2021",
+          VolgendeMeting: "02/05/2021",
+          Onderwerp: "Stand  van zaken"
+        },
+        {
+          LaatsteMeting: "18/01/2021",
+          VolgendeMeting: "18/05/2021",
+          Onderwerp: "Stand  van zaken #2"
+        }
+      ]
     },
     {
       id: 1004,
       beleidselement: "SE6.2.8 Implementatie nieuwe huisstijl",
       looptijd: "2020-2025",
       prioritair: true,
-      status: "",
+      status: "busy",
       verantwoordelijke: "Jan Peeters",
       opvolger: "Sophie Verheecke",
       tag: "HEIST",
@@ -106,7 +154,19 @@ export class AppComponent implements OnInit {
       takenlijst: "",
       auteur: "Sophie",
       actieplan: "ap5",
-      actie: "a5"
+      actie: "a5",
+      indicatorList: [
+        {
+          LaatsteMeting: "02/01/2021",
+          VolgendeMeting: "02/05/2021",
+          Onderwerp: "Stand  van zaken"
+        },
+        {
+          LaatsteMeting: "18/01/2021",
+          VolgendeMeting: "18/05/2021",
+          Onderwerp: "Stand  van zaken #2"
+        }
+      ]
     },
     {
       id: 1005,
@@ -122,7 +182,19 @@ export class AppComponent implements OnInit {
       takenlijst: "",
       auteur: "Sophie",
       actieplan: "ap5",
-      actie: "a5"
+      actie: "a5",
+      indicatorList: [
+        {
+          LaatsteMeting: "02/01/2021",
+          VolgendeMeting: "02/05/2021",
+          Onderwerp: "Stand  van zaken"
+        },
+        {
+          LaatsteMeting: "18/01/2021",
+          VolgendeMeting: "18/05/2021",
+          Onderwerp: "Stand  van zaken #2"
+        }
+      ]
     },
     {
       id: 1005,
@@ -138,7 +210,19 @@ export class AppComponent implements OnInit {
       takenlijst: "",
       auteur: "Sophie",
       actieplan: "ap5",
-      actie: "a6"
+      actie: "a6",
+      indicatorList: [
+        {
+          LaatsteMeting: "02/01/2021",
+          VolgendeMeting: "02/05/2021",
+          Onderwerp: "Stand  van zaken"
+        },
+        {
+          LaatsteMeting: "18/01/2021",
+          VolgendeMeting: "18/05/2021",
+          Onderwerp: "Stand  van zaken #2"
+        }
+      ]
     }
   ];
 
@@ -153,12 +237,27 @@ export class AppComponent implements OnInit {
     }
   ];
 
+  cols = [
+    { field: "beleidselement", header: "Beleidselement" },
+    { field: "looptijd", header: "Looptijd" },
+    { field: "prioritair", header: "Prioritair" },
+    { field: "status", header: "Status" },
+    { field: "verantwoordelijke", header: "Verantwoordelijke" },
+    { field: "opvolger", header: "Opvolger" },
+    { field: "tag", header: "Tag" },
+    { field: "indicator", header: "Indicator" },
+    { field: "takenlijst", header: "Takenlijst" }
+  ];
+
+  _selectedColumns: any[];
+
   filteredResults = [];
 
   constructor() {}
 
   ngOnInit() {
     this.expandAll();
+    this._selectedColumns = this.cols;
   }
 
   expandAll() {
@@ -187,5 +286,14 @@ export class AppComponent implements OnInit {
     }
 
     this.filteredResults = filtered;
+  }
+
+  @Input() get selectedColumns(): any[] {
+    return this._selectedColumns;
+  }
+
+  set selectedColumns(val: any[]) {
+    //restore original order
+    this._selectedColumns = this.cols.filter(col => val.includes(col));
   }
 }

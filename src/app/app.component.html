@@ -7,8 +7,10 @@
 			<p-table #dt1 [value]="beleidsItems" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
 				[resizableColumns]="true" [responsive]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
 				styleClass="p-datatable-beleidsItems p-datatable-gridlines p-datatable-sm" [paginator]="true"
+				columnResizeMode="expand" [reorderableColumns]="true" [columns]="selectedColumns"
+				[frozenColumns]="['beleidsItems']"
 				currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-				[globalFilterFields]="['verantwoordelijke','opvolger']">
+				[globalFilterFields]="['verantwoordelijke','opvolger']" stateStorage="local" stateKey="statedemo-local">
 				<ng-template pTemplate="caption">
 					<div class="p-grid p-fluid">
 						<div class="p-col-9 p-md-3">
@@ -33,153 +35,106 @@
 											placeholder="Zoek op beleidselement"></p-autoComplete>
 									</div>
 								</div>
-								<div class="p-col-9 p-md-3">
-									<div class="p-inputgroup">
-										<span class="p-inputgroup-addon"><p-columnFilter type="text" field="actieplan" display="menu"></p-columnFilter></span>
-										<input pInputText type="text" class="p-mr-2" placeholder="Zoek op actieplan" (input)="dt1.filter($event.target.value, 'actieplan', 'contains')">
-              </div>
-									</div>
-									<div class="p-col-9 p-md-3">
-										<div class="p-inputgroup">
-											<span class="p-inputgroup-addon"><p-columnFilter type="text" field="actie" display="menu"></p-columnFilter></span>
-											<input pInputText type="text" class="p-mr-2" placeholder="Zoek op actie" (input)="dt1.filter($event.target.value, 'actie', 'contains')">
 							</div>
-										</div>
-										<div class="p-col-9 p-md-3">
-											<div class="p-inputgroup">
-												<span class="p-inputgroup-addon"><p-columnFilter type="text" field="beleidselement" display="menu"></p-columnFilter></span>
-												<p-autoComplete class="p-mr-2" [suggestions]="filteredResults"
-													field="name" (completeMethod)="filterResults($event)"
-													[forceSelection]="true"
-													(onSelect)="dt1.filter($event.name, 'beleidselement', 'contains')"
-													(onClear)="dt1.filter('', 'beleidselement', 'contains')"
-													placeholder="Zoek op beleidselement"></p-autoComplete>
-											</div>
-										</div>
-									</div>
-									<div class="p-d-flex p-jc-end">
-										<button pButton type="button" class="p-mr-2" label="'Mijn' beleid" (click)="dt1.filterGlobal('Michiel', 'contains')"></button>
-										<button pButton type="button" class="p-mr-2" label="'Alle' beleid" (click)="dt1.filterGlobal('', 'contains')"></button>
-									</div>
+							<div class="p-d-flex p-jc-end">
+							</div>
+							<div class="p-d-flex">
+								<button type="button" pButton pRipple icon="pi pi-file-o" (click)="dt1.exportCSV()" class="p-mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
+								<p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+									selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}"
+									placeholder="Choose Columns"></p-multiSelect>
+								<div class="p-ml-auto">
+									<button pButton type="button" class="p-mr-2"  label="'Mijn' beleid" (click)="dt1.filterGlobal('Michiel', 'contains')"></button>
+									<button pButton type="button" class="p-mr-2"  label="'Alle' beleid" (click)="dt1.filterGlobal('', 'contains')"></button>
+								</div>
+							</div>
 				</ng-template>
-				<ng-template pTemplate="header">
+				<ng-template pTemplate="header" let-columns>
 					<tr>
 						<th class="icons-table"></th>
 						<th class="icons-table"></th>
-						<th pResizableColumn pSortableColumn="beleidselement">
-							Beleidselement
-							<p-sortIcon field="beleidselement"></p-sortIcon>
-							<p-columnFilter type="text" field="beleidselement" display="menu"></p-columnFilter>
-						</th>
-						<th pResizableColumn pSortableColumn="looptijd">
-							Looptijd
-							<p-sortIcon field="looptijd"></p-sortIcon>
-							<p-columnFilter type="text" field="looptijd" display="menu"></p-columnFilter>
-						</th>
-						<th pResizableColumn pSortableColumn="prioritair">
-							Prioritair
-							<p-sortIcon field="prioritair"></p-sortIcon>
-							<p-columnFilter type="text" field="prioritair" display="menu"></p-columnFilter>
-						</th>
-						<th pResizableColumn pSortableColumn="status">
-							Status
-							<p-sortIcon field="status"></p-sortIcon>
-							<p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
-						</th>
-						<th pResizableColumn pSortableColumn="verantwoordelijke">
-							Verantwoordelijke
-							<p-sortIcon field="verantwoordelijke"></p-sortIcon>
-							<p-columnFilter type="text" field="verantwoordelijke" display="menu"></p-columnFilter>
-						</th>
-						<th pResizableColumn pSortableColumn="opvolger">
-							Opvolger
-							<p-sortIcon field="opvolger"></p-sortIcon>
-							<p-columnFilter type="text" field="opvolger" display="menu"></p-columnFilter>
-						</th>
-						<th pResizableColumn pSortableColumn="tag">
-							Tag
-							<p-sortIcon field="tag"></p-sortIcon>
-							<p-columnFilter type="text" field="tag" display="menu"></p-columnFilter>
-						</th>
-						<th pResizableColumn pSortableColumn="indicator">
-							Indicator
-							<p-sortIcon field="indicator"></p-sortIcon>
-							<p-columnFilter type="text" field="indicator" display="menu"></p-columnFilter>
-						</th>
-						<th pResizableColumn pSortableColumn="takenlijk">
-							Takenlijst
-							<p-sortIcon field="takenlijk"></p-sortIcon>
-							<p-columnFilter type="text" field="takenlijk" display="menu"></p-columnFilter>
+						<th *ngFor="let col of columns" pReorderableColumn>
+							{{col.header}}
+							<p-sortIcon field="col.field"></p-sortIcon>
+							<p-columnFilter type="text" field="col.field" display="menu"></p-columnFilter>
 						</th>
 					</tr>
 				</ng-template>
-				<ng-template pTemplate="body" let-item let-expanded="expanded">
-					<tr>
+				<ng-template pTemplate="body" let-item let-expanded="expanded" let-columns="columns"
+					let-index="rowIndex">
+					<tr [pReorderableRow]="index">
 						<td>
 							<button type="button" pButton pRipple [pRowToggler]="item" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
 						</td>
 						<td class="icons-table">
-							<i class="pi pi-file-o"></i>
+							<i class="pi pi-file-o" style="margin-right: 5px"></i>
+							<b>AP</b>
 						</td>
-						<td class="test" title="{{item.beleidselement}}">{{item.beleidselement}}</td>
-						<td title="{{item.looptijd}}">{{item.looptijd}}</td>
-						<td title="{{item.prioritair}}">
-							<ng-container *ngIf="item.prioritair"><i class="pi pi-check"></i></ng-container>
+						<td *ngFor="let col of columns">
+							<ng-container *ngIf="col.field == 'status'">
+								<span [class]="'customer-badge status-' + item[col.field]">{{item[col.field]}}</span>
+							</ng-container>
+							<ng-container *ngIf="col.field != 'status'">
+								{{item[col.field]}}
+							</ng-container>
 						</td>
-						<td title="{{item.status}}">
-							<i class="pi pi-check-circle"></i>
-						</td>
-						<td class="test" title="{{item.verantwoordelijke}}">{{item.verantwoordelijke}}</td>
-						<td class="test" title="{{item.opvolger}}">{{item.opvolger}}</td>
-						<td class="test" title="{{item.tag}}">{{item.tag}}</td>
-						<td title="{{item.indicator}}">{{item.indicator}}</td>
-						<td title="{{item.takenlijst}}">{{item.takenlijst}}</td>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="rowexpansion" let-item>
 					<tr>
 						<td colspan="11">
-							<div class="p-p-3">
-								<p-table dataKey="id">
+							<p-accordion>
+								<p-accordionTab>
 									<ng-template pTemplate="header">
+										<div>Indicator</div>
+										<span class="p-badge p-badge-success" style="margin-left:5px">2</span>
+									</ng-template>
+									<p-table dataKey="id" [value]="item.indicatorList">
+										<ng-template pTemplate="header">
 					<tr>
-						<th pSortableColumn="id">Id <p-sortIcon field="price"></p-sortIcon>
+						<th pSortableColumn="LaatsteMeting">
+							Laatste meting
+							<p-sortIcon field="LaatsteMeting"></p-sortIcon>
 						</th>
-						<th pSortableColumn="customer">Customer <p-sortIcon field="customer"></p-sortIcon>
+						<th pSortableColumn="VolgendeMeting">Volgende meting <p-sortIcon field="VolgendeMeting">
+							</p-sortIcon>
 						</th>
-						<th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon>
+						<th pSortableColumn="Onderwerp">Onderwerp <p-sortIcon field="Onderwerp"></p-sortIcon>
 						</th>
-						<th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon>
-						</th>
-						<th pSortableColumn="stats">Status <p-sortIcon field="status"></p-sortIcon>
-						</th>
-						<th style="width: 4rem"></th>
 					</tr>
 				</ng-template>
-				<ng-template pTemplate="body" let-order>
+				<ng-template pTemplate="body" let-indicator>
 					<tr>
-						<td>{{order.id}}</td>
-						<td>{{order.customer}}</td>
-						<td>{{order.id}}</td>
-						<td>{{order.amount | currency:'USD'}}</td>
-						<td><span [class]="'order-badge order-' + order.status.toLowerCase()">{{order.status}}</span>
-						</td>
-						<td>
-							<p-button type="button" icon="pi pi-search"></p-button>
-						</td>
+						<td>{{indicator.LaatsteMeting}}</td>
+						<td>{{indicator.VolgendeMeting}}</td>
+						<td>{{indicator.Onderwerp}}</td>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="emptymessage">
 					<tr>
-						<td colspan="6">There are no order for this product yet.</td>
+						<td colspan="3">There are no order for this product yet.</td>
 					</tr>
 				</ng-template>
 			</p-table>
-</div>
-</td>
-</tr>
-</ng-template>
-</p-table>
-</ng-template>
-</p-splitter>
+			</p-accordionTab>
+			<p-accordionTab header="Verantwoordelijke">
+				<ul>
+					<li>Michiel Van Der Donck</li>
+					<li>Persoon 2</li>
+					<li>Persoon 3</li>
+				</ul>
+			</p-accordionTab>
+			<p-accordionTab header="Opvolger">
+				<ul>
+					<li>Jan Peeters</li>
+					<li>Persoon 2</li>
+				</ul>
+			</p-accordionTab>
+			</p-accordion>
+			</td>
+			</tr>
+		</ng-template>
+		</p-table>
+		</ng-template>
+	</p-splitter>
 </div>

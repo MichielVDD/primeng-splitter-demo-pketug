@@ -8,6 +8,10 @@ import { TableModule } from "primeng/table";
 import { TreeModule } from "primeng/tree";
 import { InputTextModule } from "primeng/inputtext";
 import { AutoCompleteModule } from "primeng/autocomplete";
+import { FieldsetModule } from "primeng/fieldset";
+import { AccordionModule } from "primeng/accordion";
+import { MultiSelectModule } from "primeng/multiselect";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   imports: [
@@ -18,7 +22,11 @@ import { AutoCompleteModule } from "primeng/autocomplete";
     TableModule,
     TreeModule,
     InputTextModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    FieldsetModule,
+    AccordionModule,
+    MultiSelectModule,
+    FormsModule
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent]
