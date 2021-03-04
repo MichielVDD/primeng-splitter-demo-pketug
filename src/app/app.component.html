@@ -1,14 +1,13 @@
 <div class="card">
-	<p-splitter [panelSizes]="[12,88]">
+	<p-splitter [panelSizes]="[12,88]" [minSizes]="[0,80]">
 		<ng-template>
 			<p-tree [value]="doelstellingboom"></p-tree>
 		</ng-template>
 		<ng-template>
 			<p-table #dt1 [value]="beleidsItems" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
-				[resizableColumns]="true" [responsive]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
-				styleClass="p-datatable-beleidsItems p-datatable-gridlines p-datatable-sm" [paginator]="true"
-				columnResizeMode="expand" [reorderableColumns]="true" [columns]="selectedColumns"
-				[frozenColumns]="['beleidsItems']"
+				[rowsPerPageOptions]="[10,25,50]" [loading]="loading" [resizableColumns]="true" [scrollable]="true"
+				scrollHeight="500px" styleClass="p-datatable-beleidsItems p-datatable-gridlines p-datatable-sm"
+				[paginator]="true" [reorderableColumns]="true" [columns]="selectedColumns"
 				currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
 				[globalFilterFields]="['verantwoordelijke','opvolger']" stateStorage="local" stateKey="statedemo-local">
 				<ng-template pTemplate="caption">
@@ -39,10 +38,9 @@
 							<div class="p-d-flex p-jc-end">
 							</div>
 							<div class="p-d-flex">
-								<button type="button" pButton pRipple icon="pi pi-file-o" (click)="dt1.exportCSV()" class="p-mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
 								<p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
 									selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}"
-									placeholder="Choose Columns"></p-multiSelect>
+									placeholder="Choose Columns" (onChange)="updateRowCount();"></p-multiSelect>
 								<div class="p-ml-auto">
 									<button pButton type="button" class="p-mr-2"  label="'Mijn' beleid" (click)="dt1.filterGlobal('Michiel', 'contains')"></button>
 									<button pButton type="button" class="p-mr-2"  label="'Alle' beleid" (click)="dt1.filterGlobal('', 'contains')"></button>
@@ -51,30 +49,34 @@
 				</ng-template>
 				<ng-template pTemplate="header" let-columns>
 					<tr>
+						<th class="first-col"></th>
 						<th class="icons-table"></th>
-						<th class="icons-table"></th>
-						<th *ngFor="let col of columns" pReorderableColumn>
+						<th *ngFor="let col of columns" style="width: 8%" pSortableColumn="{{col.field}}"
+							pReorderableColumn pResizableColumn>
 							{{col.header}}
-							<p-sortIcon field="col.field"></p-sortIcon>
-							<p-columnFilter type="text" field="col.field" display="menu"></p-columnFilter>
+							<p-sortIcon field="{{col.field}}"></p-sortIcon>
+							<p-columnFilter type="text" field="{{col.field}}" display="menu"></p-columnFilter>
 						</th>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-item let-expanded="expanded" let-columns="columns"
 					let-index="rowIndex">
 					<tr [pReorderableRow]="index">
-						<td>
+						<td class="first-col">
 							<button type="button" pButton pRipple [pRowToggler]="item" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
 						</td>
 						<td class="icons-table">
 							<i class="pi pi-file-o" style="margin-right: 5px"></i>
 							<b>AP</b>
 						</td>
-						<td *ngFor="let col of columns">
+						<td *ngFor="let col of columns" style="width: 8%" title="{{item[col.field]}}">
 							<ng-container *ngIf="col.field == 'status'">
 								<span [class]="'customer-badge status-' + item[col.field]">{{item[col.field]}}</span>
 							</ng-container>
-							<ng-container *ngIf="col.field != 'status'">
+							<ng-container *ngIf="col.field == 'prioritair'">
+								<i class="pi pi-check" *ngIf="item[col.field]"></i>
+							</ng-container>
+							<ng-container *ngIf="col.field != 'status' && col.field != 'prioritair'">
 								{{item[col.field]}}
 							</ng-container>
 						</td>
@@ -82,9 +84,9 @@
 				</ng-template>
 				<ng-template pTemplate="rowexpansion" let-item>
 					<tr>
-						<td colspan="11">
+						<td [attr.colspan]="count">
 							<p-accordion>
-								<p-accordionTab>
+								<p-accordionTab [selected]="true">
 									<ng-template pTemplate="header">
 										<div>Indicator</div>
 										<span class="p-badge p-badge-success" style="margin-left:5px">2</span>

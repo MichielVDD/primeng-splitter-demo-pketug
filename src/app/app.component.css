@@ -17,8 +17,12 @@ p-autocomplete {
   width: 100%;
 }
 
+.first-col {
+  width: 40px;
+}
+
 .icons-table {
-  width: 60px;
+  width: 50px;
 }
 
 .status-done {
@@ -44,3 +48,11 @@ p-autocomplete {
   font-size: 12px;
   letter-spacing: 0.3px;
 }
+
+::ng-deep .p-datatable-scrollable-header-box {
+  padding-right: none !important;
+}
+
+/* ::ng-deep p-splitter div:nth-last-child(1) {
+  overflow: auto;
+} */

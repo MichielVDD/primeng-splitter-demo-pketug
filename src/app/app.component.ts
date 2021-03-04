@@ -8,6 +8,8 @@ import { Table } from "primeng/table";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent implements OnInit {
+  @ViewChild(Table) dataTableComponent: Table;
+
   doelstellingboom: TreeNode[] = <TreeNode[]>[
     {
       label: "SD: Vrijetijdsbesteding",
@@ -34,7 +36,7 @@ export class AppComponent implements OnInit {
       id: 1000,
       beleidselement: "SE2.2.5 Herstelling kunstgras hockeyveld",
       looptijd: "2020-2021",
-      prioritair: true,
+      prioritair: false,
       status: "",
       verantwoordelijke:
         "Michiel Van Der Donck; Michel Lochten; Margarita Dubkova",
@@ -253,11 +255,14 @@ export class AppComponent implements OnInit {
 
   filteredResults = [];
 
+  count = 0;
+
   constructor() {}
 
   ngOnInit() {
     this.expandAll();
     this._selectedColumns = this.cols;
+    this.updateRowCount();
   }
 
   expandAll() {
@@ -293,7 +298,14 @@ export class AppComponent implements OnInit {
   }
 
   set selectedColumns(val: any[]) {
-    //restore original order
     this._selectedColumns = this.cols.filter(col => val.includes(col));
+  }
+
+  reset() {
+    this.dataTableComponent.reset();
+  }
+
+  updateRowCount() {
+    this.count = this.selectedColumns.length + 2;
   }
 }

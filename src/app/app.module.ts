@@ -12,6 +12,7 @@ import { FieldsetModule } from "primeng/fieldset";
 import { AccordionModule } from "primeng/accordion";
 import { MultiSelectModule } from "primeng/multiselect";
 import { FormsModule } from "@angular/forms";
+import { CardModule } from "primeng/card";
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { FormsModule } from "@angular/forms";
     FieldsetModule,
     AccordionModule,
     MultiSelectModule,
-    FormsModule
+    FormsModule,
+    CardModule
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent]
